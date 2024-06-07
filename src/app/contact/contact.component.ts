@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 
 @Component({
@@ -6,15 +6,15 @@ import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
   formularioContacto: FormGroup;
-  tipoDni: string = 'DNI';
+  tipoDni: string = '';
+  mostrarDni: boolean = false;
 
   constructor(private form: FormBuilder) {
     this.formularioContacto = this.form.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
-      dni: [''],
       tipoDni: [''],
       email: ['', [Validators.required, Validators.email]],
     });
@@ -24,10 +24,17 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {
     // ? this.formularioContacto.get('apellido')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.formularioContacto.get('nombre')?.setValue('Juan');
+    this.formularioContacto.get('nombre')?.disable();
     this.formularioContacto.get('tipoDni')?.valueChanges.subscribe(value =>{
+      this.mostrarDni = value != '';
       this.tipoDni = value;
-      // console.log(this.tipoDni);
+      // console.log(value);
     })
+  }
+
+  ngOnDestroy(): void {
+    console.log("Se destruyo un componente");
   }
 
   hasErrors(controlName: string, errorType: string) {
