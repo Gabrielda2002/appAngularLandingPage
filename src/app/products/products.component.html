@@ -1,4 +1,5 @@
-<h1>Products clean</h1>
+<div class="container">
+  <h1>List Of Products</h1>
 <table class="table">
   <thead>
     <tr>
@@ -11,15 +12,17 @@
   <tbody>
     <tr *ngFor="let product of productsList">
       <th scope="row">{{ product.id }}</th>
-      <td>{{ product.name }}</td>
-      <td [ngClass]="{'red': product.price > 5 }">{{ product.price | currency }}</td>
+      <td>{{ product.title }}</td>
+      <td [ngClass]="{'red': product.price > 100 }">{{ product.price | currency }}</td>
       <button
         type="button"
         class="btn btn-outline-primary"
         [routerLink]="['/products', product.id]"
       >
-        Details
+        View Detail
       </button>
     </tr>
   </tbody>
 </table>
+
+</div>
